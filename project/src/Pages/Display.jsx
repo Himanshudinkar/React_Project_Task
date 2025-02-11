@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 const Display = () => {
   const [mydata, setMydata] = useState([]);
+
+  let ref = useRef("");
 
   const loadData = () => {
     let api = "http://localhost:3000/data";
@@ -18,7 +20,13 @@ const Display = () => {
     loadData();
   }, []);
 
+
+  const myRef = () =>{
+    ref.current.style.display = "none";
+  }
   return (
+    <>
+    <div id="hiding" ref={ref}>
     <div className="cards-container">
       {mydata.map((item, index) => (
         <Card key={index} className="custom-card">
@@ -33,11 +41,13 @@ const Display = () => {
               <h4 className="line3">₹ {item.price}</h4>
               <p className="line4">{item.available} people booked this hotel today</p>
             </div>
-            <Button variant="primary">View Details</Button>
+            <Button variant="primary" onClick={myRef}>View Details</Button>
           </Card.Body>
         </Card>
       ))}
     </div>
+    </div>
+    </>
   );
 };
 
